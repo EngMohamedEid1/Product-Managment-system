@@ -10,7 +10,7 @@ let submit = document.getElementById("submit");
 
 let btnMode = "create";
 
-let tmp = 1;
+let tmp;
 
 function getTotal() {
   if (price.value != "") {
@@ -32,8 +32,7 @@ if (localStorage.product != null) {
 }
 
 submit.onclick = function () {
-  let newPro;
-  newPro = {
+  let newPro = {
     title: title.value,
     price: price.value,
     taxes: taxes.value,
@@ -43,7 +42,14 @@ submit.onclick = function () {
     count: count.value,
     category: category.value,
   };
-  if ((btnMode = "create")) {
+  console.log(btnMode);
+
+  if ((btnMode = "update")) {
+    dataPro[tmp] = newPro;
+    btnMode = "create";
+    submit.innerHTML = "Create";
+    count.style.display = "block";
+  } else {
     if (newPro.count > 1) {
       for (let i = 0; i < newPro.count; i++) {
         dataPro.push(newPro);
@@ -51,11 +57,6 @@ submit.onclick = function () {
     } else {
       dataPro.push(newPro);
     }
-  } else {
-    dataPro[tmp] = newPro;
-    btnMode = "create";
-    submit.innerHTML = "create";
-    count.style.display = "block";
   }
   localStorage.setItem("product", JSON.stringify(dataPro));
 
@@ -132,8 +133,6 @@ function updateItem(i) {
     top: 0,
     behavior: "smooth",
   });
-  console.log(i);
-  console.log(dataPro[tmp]);
 }
 
 // delete
